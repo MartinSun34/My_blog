@@ -2,7 +2,7 @@
 
 There are many advantages to using bind variables in SQL statements, especially in conditional statements. Using bind variables can save the trouble to parse and optimize the query in every execution. There are also disadvantages such as bind variable will make optimizer lost its prediction accuracy and cause performance decrease. In PostgreSQL are represented by $ sign preceded with a number, just like '$n'. Have you ever wondered how to pass and process these parameters in Postgres? In general, a query with bind variables will be transformed to a query tree with Param nodes. Then when this query get executed, it will fetch the input parameters stored in execution state. More details will be introduced below.
 
-![extern_param](C:\Users\sunch\Desktop\extern_param.jpg)
+
 
 ### how to handle placeholder in query
 
@@ -222,17 +222,3 @@ Finally when execution start to run and executor start to evaluate expressions, 
 ### Conclusion
 
 Finally, we can see the code to handle parameter in Postgres is easily expandable. This blog just bring a rough introduction of it. Most of the examples in this blog come from prepared statements or sql functions, and there are some other scenarios where bind variables are used that have not been mentioned, and there are still many related details that have not been mentioned. You can learn more in the code.
-
-
-
-
-
-### Publishing Rules
-
-Remeber to never put a **NEWS** item in 'postgresql' category as that will lead to Planet PostgreSQL disabling your feed.
-
-Your blog feed URL is: https://www.highgo.ca/author/WP Username/feed/?category_name=postgresql
-
-1. Always have a featured image with an approximate size of 1150 x 440 pixels.
-2. Always have twitter card info using the image template available [here](https://highgo.ca/internal_resources). Use the "Social" in the "Yoast"box at the bottom. The folder contains a blog folder containing 2 images. One image has a red box to give you guidelines for your twitter card image. Outside of the red box, the image might get truncated in twitter cards.
-3. Verify twitter card by visiting https://cards-dev.twitter.com/validator. To do so, first publish the blog WITHOUT POSTGRESQL category. This will prevent it from getting picked up by Planet PostgreSQL. After you have verified the card, add POSTGRESQL category and publish it again.
