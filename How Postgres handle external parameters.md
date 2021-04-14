@@ -2,7 +2,7 @@
 
 There are many advantages to using bind variables in SQL statements, especially in conditional statements. Using bind variables can save the trouble to parse and optimize the query in every execution. There are also disadvantages such as bind variable will make optimizer lost its prediction accuracy and cause performance decrease. In PostgreSQL are represented by $ sign preceded with a number, just like '$n'. Have you ever wondered how to pass and process these parameters in Postgres? In general, a query with bind variables will be transformed to a query tree with Param nodes. Then when this query get executed, it will fetch the input parameters stored in execution state. More details will be introduced below.
 
-
+![extern_param](C:\Users\sunch\Desktop\extern_param.jpg)
 
 ### how to handle placeholder in query
 
@@ -215,7 +215,7 @@ postgres=# execute getsum(2,1);
 For prepared statements, bind variables are also related to the choice of plan. When a prepared statement first time get executed, planner will build a plan for it and put the in cache. If this prepared statement do not have bind variables, planner will build a generic plan otherwise it will build a custom plan.
 
 **In executor**
-At the initiation of the execution, the executor will generate execution steps according to the plan tree. If a Param node did' not get optimized in planner it will be passed to function ExecInitExprRec(). When the execution initialization function encounters a Param node with type PARAM_EXETERN, it will add an execution step of type EEOP_PARAM_EXTERN to the sequence of execution steps and set that step with parameter id and parameter type. Beside that all the extern parameters in ParamListInfo will be copied to query descriptor then it will be passed to so it can be fetched during later execution. 
+At the initiation of the execution, the executor will generate execution steps according to the plan tree. If a Param node did' not get optimized in planner it will be passed to function ExecInitExprRec(). When the execution initialization function encounters a Param node with type PARAM_EXETERN, it will add an execution step of type EEOP_PARAM_EXTERN to the sequence of execution steps and set that step with parameter id and parameter type. Beside that all the extern parameters in ParamListInfo will be copied to query descriptor then at ExecutroStart() function any external parameter will be assigned to EState which  can be fetched during later execution.  
 
 Finally when execution start to run and executor start to evaluate expressions, it will call ExecInterpExpr() to do that. When this function reach a step with opcode EEOP_PARAM_EXTERN it will call ExecEvalParamExtern() function to fetch the corresponding id parameter which stored in execution context. There are some thing I did not mentioned yet, the paramFetch and ParamCompile functions in ParamListInfo, if they were set they will be called in executor. As far as I know, they works in plsql function. 
 
